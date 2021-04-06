@@ -23,8 +23,4 @@ def submit():
     collection = db.emails
     data = collection.find_one({"emails": []}, {"_id": 0})
     return data
-
-    
-
-app.run(port=5000)
     
