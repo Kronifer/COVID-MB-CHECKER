@@ -22,5 +22,10 @@ def submit():
         return "No email submitted."
     collection = db.Emails
     data = collection.find_one({}, {"_id": 0})
-    return jsonify(data)
+    rawlist = data.get("emails")
+    rawlist.append(email)
+    collection.find_one_and_update({},
+    {"$set":
+            {"emails": rawlist}}, upsert=True)
+    return "Email added!"
     
