@@ -21,6 +21,6 @@ def submit():
     except:
         return "No email submitted."
     collection = db.emails
-    data = collection.find_one({"emails"}, {"_id": 0})
+    data = collection.find_one({"emails": []}, {"_id": 0})
     return data
     
