@@ -20,7 +20,7 @@ def submit():
         email = request.args.get("email")
     except:
         return "No email submitted."
-    collection = db.emails
+    collection = db.Emails
     data = collection.find_one({}, {"_id": 0})
     return jsonify(data)
     
