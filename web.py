@@ -6,7 +6,7 @@ client = pymongo.MongoClient(
     os.getenv("MKEY")
 )
 
-db = client.COVID_TRACKER
+db = client.COVID-TRACKER
 
 app = Flask(__name__)
 
