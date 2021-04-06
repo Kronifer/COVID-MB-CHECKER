@@ -45,7 +45,7 @@ def unregisterprocess():
     collection = db.Emails
     data = collection.find_one({}, {"_id": 0})
     rawlist = data.get("emails")
-    data.remove(email)
+    rawlist.remove(email)
     collection.find_one_and_update({},
     {"$set":
             {"emails": rawlist}}, upsert=True)
