@@ -27,5 +27,5 @@ def submit():
     collection.find_one_and_update({},
     {"$set":
             {"emails": rawlist}}, upsert=True)
-    return "Email added!"
+    return "Email added! If there has already been a news release today, you will get an email tomorrow."
     

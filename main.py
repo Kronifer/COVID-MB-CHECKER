@@ -4,6 +4,11 @@ import requests
 import yagmail
 import time
 import os
+import pymongo
+
+client = pymongo.MongoClient(
+    os.getenv("MKEY")
+)
 
 password = os.getenv("passwd")
 
@@ -22,6 +27,12 @@ url = "https://www.gov.mb.ca/covid19/updates/index.html"
 def check():
     log = logging.getLogger(__name__)
     while True:
+        global client
+        db = client.COVID_TRACKER
+        collection = db.Emails
+        rawusers = collection.find_one({}, {"_id": 0})
+        log.warning("Obtained emails.")
+        emails = rawusers.get("emails")
         raw = requests.get(url)
         soup = BeautifulSoup(raw.content, 'html.parser')
         dateraw = soup.find_all("em")
@@ -30,10 +41,11 @@ def check():
         global password
         global message
         if datestr != date:
-            yag = yagmail.SMTP(user="covidalerter7@gmail.com", password=password)
-            yag.send(to="runkedillon@gmail.com", subject="New COVID info from Manitoba", contents=message)
             datestr = date
             log.warning(f"Datestr updated to {date}")
+            yag = yagmail.SMTP(user="covidalerter7@gmail.com", password=password)
+            for email in emails:
+                yag.send(to=email, subject="New COVID info from Manitoba", contents=message)
             time.sleep(500)
             check()
         else:
