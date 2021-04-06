@@ -16,10 +16,12 @@ def home():
 
 @app.route("/submit", methods=["GET"])
 def submit():
-    try:
-        email = request.args.get("email")
-    except:
+    email = request.args.get("email")
+    print(type(email))
+    if email is None:
         return "No email submitted."
+    elif "@" not in email:
+        return "Invalid email."
     collection = db.Emails
     data = collection.find_one({}, {"_id": 0})
     rawlist = data.get("emails")
@@ -28,4 +30,25 @@ def submit():
     {"$set":
             {"emails": rawlist}}, upsert=True)
     return "Email added! If there has already been a news release today, you will get an email tomorrow."
+
+@app.route("/unregister", methods=["GET"])
+def unregister():
+    return render_template("unregister.html")
+
+@app.route("/unregisterprocess", methods=["GET"])
+def unregisterprocess():
+    email = request.args.get("email")
+    if email is None:
+        return "No email submitted."
+    elif "@" not in email:
+        return "Invalid email."
+    collection = db.Emails
+    data = collection.find_one({}, {"_id": 0})
+    rawlist = data.get("emails")
+    data.remove(email)
+    collection.find_one_and_update({},
+    {"$set":
+            {"emails": rawlist}}, upsert=True)
+    return "Unregistered from COVID checker."
+
     

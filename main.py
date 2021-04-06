@@ -19,6 +19,8 @@ There was an update made on Manitoba's covid 19 website. Check it out at:
 
 https://www.gov.mb.ca/covid19/updates/index.html
 
+To unregister, go to https://covid-checker-mb.herokuapp.com/unregister
+
 {datestr}
 """
 
