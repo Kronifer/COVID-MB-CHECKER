@@ -7,10 +7,12 @@ import os
 
 password = os.getenv("passwd")
 
-message = """\
-There was an update on Manitoba's covid 19 website. Check it out at:
+message = f"""\
+There was an update made on Manitoba's covid 19 website. Check it out at:
 
 https://www.gov.mb.ca/covid19/updates/index.html
+
+{datestr}
 """
 
 datestr = "Last updated: April 4, 2021"
