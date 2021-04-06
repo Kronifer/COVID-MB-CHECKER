@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pymongo
 import os
 
@@ -22,5 +22,5 @@ def submit():
         return "No email submitted."
     collection = db.emails
     data = collection.find_one({}, {"_id": 0})
-    return data
+    return jsonify(data)
     
