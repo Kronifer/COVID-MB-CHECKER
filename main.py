@@ -1,8 +1,11 @@
 from bs4 import BeautifulSoup
+import logging
 import requests
 import yagmail
 import time
 import os
+
+log = logging.getLogger(__name__)
 
 password = os.getenv("passwd")
 
@@ -22,6 +25,7 @@ def check():
         soup = BeautifulSoup(raw.content, 'html.parser')
         dateraw = soup.find_all("em")
         date = dateraw[0].get_text()
+        global log
         global datestr
         global password
         global message
@@ -29,7 +33,7 @@ def check():
             yag = yagmail.SMTP(user="covidalerter7@gmail.com", password=password)
             yag.send(to="runkedillon@gmail.com", subject="New COVID info from Manitoba", contents=message)
             datestr = date
-            print(f"Datestr updated to {date}")
+            log.info(f"Datestr updated to {date}")
             time.sleep(500)
             check()
         else:
